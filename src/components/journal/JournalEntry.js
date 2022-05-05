@@ -1,25 +1,52 @@
-import React from 'react'
+import React from 'react';
+import moment from 'moment';
+import { useDispatch } from 'react-redux';
+import { activeNote } from '../../actions/notes';
 
-export const JournalEntry = () => {
-  return (
-    <div className='journal__entry pointer'>
+export const JournalEntry = ({ id, date, title, body, url }) => {
 
-        <div className='journal__entry-picture' style={{
-            backgroundSize: 'cover',
-            backgroundImage: 'url(https://images.pexels.com/photos/2486168/pexels-photo-2486168.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)'
-        }}>
+    const noteDate = moment(date);
+    const dispatch = useDispatch();
+
+    const handleEntryClick = () => {
+        dispatch( 
+            activeNote( id, {
+                date, title, body, url
+            })
+        );
+    }
+
+    return (
+        <div 
+            className="journal__entry pointer animate__animated animate__fadeIn animate__faster"
+            onClick={ handleEntryClick }
+        >
+            
+            {
+                url &&
+                <div 
+                    className="journal__entry-picture"
+                    style={{
+                        backgroundSize: 'cover',
+                        backgroundImage: `url(${ url })`
+                    }}
+                ></div>
+            }
+
+            <div className="journal__entry-body">
+                <p className="journal__entry-title">
+                    { title }
+                </p>
+                <p className="journal__entry-content">
+                    { body }
+                </p>
+            </div>
+
+            <div className="journal__entry-date-box">
+                <span> { noteDate.format('dddd') } </span>
+                <h4> { noteDate.format('Do') } </h4>
+            </div>
+
         </div>
-
-        <div className='journal__entry-body'>
-            <p className='journal__entry-title'>Un Nuevo Dia</p>
-            <p className='journal__entry-content'>lorem ipsum solaris pretus gratius</p>
-        </div>
-
-        <div className='journal__entry-date-box'>
-            <span>Monday</span>
-            <h4>28</h4>
-        </div>
-
-    </div>
-  )
+    )
 }

@@ -4,6 +4,7 @@ import Swal from 'sweetalert2'
 
 import { types } from "../types/types"
 import { finishLLoading, startLoading } from './ui'
+import { noteLogout } from './notes'
 
 
 export const startLoginEmailPassword = (email, password) => {
@@ -21,7 +22,6 @@ export const startLoginEmailPassword = (email, password) => {
             Swal.fire('Error', e.message, 'error');
         })
 
-        // dispatch( login(123, 'Pedro') );
         
     }
 }
@@ -73,6 +73,7 @@ export const startLogout = () => {
         await firebase.auth().signOut();
 
         dispatch( logout() );
+        dispatch( noteLogout() );
     }
 }
 
